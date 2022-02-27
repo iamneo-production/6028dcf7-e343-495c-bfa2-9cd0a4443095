@@ -1,0 +1,66 @@
+.bg-img {
+    /* The image used */
+    background-image: url("https://st3.depositphotos.com/2165517/36864/i/450/depositphotos_368649102-stock-photo-party-birthday-blue-background-holiday.jpg");
+  
+    height: 745px;
+  
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+  }
+li  h2{
+color:white;
+
+
+  }
+ 
+  /* mouse over link */
+  a:hover {
+    color: rgb(105, 213, 255);
+  }
+  
+  /* selected link */
+  a:active {
+    color: rgb(55, 0, 255);
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    background-color: rgb(18, 7, 80);
+    height:40px;
+   
+  }
+  li{
+    float: Right;
+  }
+  .parent {
+  position: absolute;
+  color:rgb(15, 13, 13);
+  top:8%;
+  left:37%;
+  text-align:center;
+  }
+  
+ 
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 10px 14px;
+    text-decoration: none;
+   
+  }
+  
+  li a:hover {
+    background-color: rgb(46, 65, 4);
+  }
+  h1{
+    font-family:Lucida Handwriting;
+  }
