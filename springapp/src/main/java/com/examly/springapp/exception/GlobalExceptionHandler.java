@@ -19,16 +19,22 @@ public class GlobalExceptionHandler extends RuntimeException{
 		return new ResponseEntity(exc.getLocalizedMessage(), HttpStatus.UNAUTHORIZED);
 	}
 	
-	// Duplicate Value Exception
+	// DuplicateValueException
 	@ExceptionHandler(DuplicateValueException.class)
 	public ResponseEntity<?> handleDuplicateValueException(DuplicateValueException exc){
 		return new ResponseEntity(exc.getLocalizedMessage(), HttpStatus.CONFLICT);
 	}
 	
-	// Missing Required Field
+	// MissingRequiredFieldException
 	@ExceptionHandler(MissingRequiredFieldException.class)
 	public ResponseEntity<?> handleMissingRequiredFieldException(MissingRequiredFieldException exc){
 		return new ResponseEntity(exc.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
+	}
+
+	// BadVerificationTokenException
+	@ExceptionHandler(BadVerificationTokenException.class)
+	public ResponseEntity<?> handleBadVerificationTokenException(BadVerificationTokenException exc){
+		return new ResponseEntity(exc.getLocalizedMessage(), HttpStatus.UNAUTHORIZED);
 	}
 	
 	// TODO: Classify more specific exceptions
@@ -38,7 +44,7 @@ public class GlobalExceptionHandler extends RuntimeException{
 		public ResponseEntity<?> handleGenericException(Exception exc){
 			return environment.equals("development") ? 
 					new ResponseEntity<>(exc.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
-					: null;
+					: new ResponseEntity<>("Something Went Wrong", HttpStatus.INTERNAL_SERVER_ERROR);
 					// : ResponseEntity.internalServerError().body("Something Went Wrong");
 	}
 }
