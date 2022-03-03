@@ -44,14 +44,15 @@ public class ThemeServiceImpl implements ThemeService {
 	}
 
 	@Override
-	public Theme getTheme(Integer id) {
-		return themeRepository.findById(id).orElse(null);
+	public List<Theme> getTheme() {
+		return themeRepository.findAll();
 	}
 
 
 	@Override
 	public String editTheme(Integer id,Theme theme) {
-		Theme newTheme = themeRepository.findById(id).get();
+		Theme newTheme = themeRepository.findById(id).orElse(null);
+		System.out.println(newTheme);
 		if(newTheme==null) {
 			throw new ResourceNotFoundException("Theme not found");
 		}

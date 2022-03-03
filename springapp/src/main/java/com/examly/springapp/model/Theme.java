@@ -55,6 +55,14 @@ public class Theme {
 		this.themeCost = themeCost;
 	}
 
+	public Integer getThemeId() {
+		return themeId;
+	}
+
+	public void setThemeId(Integer themeId) {
+		this.themeId = themeId;
+	}
+
 	public String getThemeName() {
 		return themeName;
 	}

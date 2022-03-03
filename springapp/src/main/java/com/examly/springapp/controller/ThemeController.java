@@ -47,14 +47,10 @@ public class ThemeController {
 		return new ResponseEntity(themeService.saveTheme(theme), HttpStatus.CREATED);
 	}
 	
-	@GetMapping("/admin/getTheme")
-	public ResponseEntity<?> getTheme(Integer id){
-		Theme theme = themeService.getTheme(id);
-		if(theme==null) {
-			throw new ResourceNotFoundException("Theme not found");
-		}
-		return new ResponseEntity(themeService.saveTheme(theme), HttpStatus.CREATED);
-	}
+	// @GetMapping("/admin/getTheme")
+	// public ResponseEntity<?> getTheme(){
+	// 	return new ResponseEntity(themeService.getTheme(), HttpStatus.OK);
+	// }
 	
 	@PutMapping("/admin/editTheme/{id}")
 	public ResponseEntity<?> editTheme(@PathVariable Integer id, @RequestBody Theme theme){
@@ -62,7 +58,7 @@ public class ThemeController {
 	}
 	
 	@DeleteMapping("/admin/deleteTheme/{id}")
-	public ResponseEntity<?> deleteTheme(Integer id){
+	public ResponseEntity<?> deleteTheme(@PathVariable Integer id){
 		return new ResponseEntity(themeService.deleteTheme(id), HttpStatus.NO_CONTENT);
 	}
 
