@@ -28,6 +28,8 @@ import com.examly.springapp.model.AuthenticationResponse;
 import com.examly.springapp.security.jwt.JwtUtil;
 import com.examly.springapp.service.UserService;
 
+import com.examly.springapp.exception.UnverifiedUserException;
+
 @RestController
 public class AuthController {
 	
@@ -66,7 +68,7 @@ public class AuthController {
 		}catch(BadCredentialsException e) {
 			throw new com.examly.springapp.exception.BadCredentialsException("Incorrect email or password");
 		}catch (DisabledException e) {
-			throw new RuntimeException("Used is not verified");
+			throw new UnverifiedUserException("User is not verified");
 		}
 		final UserDetails userDetails = userDetailsService
 				.loadUserByUsername(authenticationRequest.getEmail());

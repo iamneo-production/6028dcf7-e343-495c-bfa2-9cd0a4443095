@@ -18,6 +18,7 @@ public class Theme {
 
 	@NotNull
 	@Column(unique = true)
+	@Size(min=5,max=30)
 	private String themeName;
 	@NotNull
 	private String themeImageURL;

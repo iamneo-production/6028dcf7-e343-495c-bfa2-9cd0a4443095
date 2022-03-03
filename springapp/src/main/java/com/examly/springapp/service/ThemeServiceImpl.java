@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.examly.springapp.exception.DuplicateValueException;
+import com.examly.springapp.exception.ResourceNotFoundException;
 import com.examly.springapp.model.Theme;
 import com.examly.springapp.repository.ThemeRepository;
 
@@ -20,8 +21,21 @@ public class ThemeServiceImpl implements ThemeService {
 		if(existsByThemeName(theme.getThemeName())) {
 			throw new DuplicateValueException("Theme", "themeName", theme.getThemeName());
 		}
-		themeRepository.save(theme);
-		return "Theme Added";
+		Theme newTheme = new Theme();
+		newTheme.setThemeName(theme.getThemeName());
+		newTheme.setThemeImageURL(theme.getThemeImageURL());
+		newTheme.setThemeDescription(theme.getThemeDescription());
+		newTheme.setThemeCost(theme.getThemeCost());
+		newTheme.setThemePhotographer(theme.getThemePhotographer());
+		newTheme.setThemeVideographer(theme.getThemeVideographer());
+		newTheme.setThemeReturnGift(theme.getThemeReturnGift());
+		themeRepository.save(newTheme);
+		return "Theme added";
+	}
+
+	@Override
+	public Boolean existsByThemeName(String themeName) {
+		return themeRepository.existsByThemeName(themeName);
 	}
 
 	@Override
@@ -30,18 +44,39 @@ public class ThemeServiceImpl implements ThemeService {
 	}
 
 	@Override
-	public Boolean existsByThemeName(String themeName) {
-		return themeRepository.existsByThemeName(themeName);
+	public Theme getTheme(Integer id) {
+		return themeRepository.findById(id).orElse(null);
 	}
 
-//	@Override
-//	public String editTheme(Integer id, Theme theme) {
-//		if(themeRepository.findById(id)==null) {
-//			throw new ResourceNotFoundException("Theme with id "+id+" not found.");
-//		}
-//		themeRepository.findById(id).map(
-//				
-//			)
-//	}
+
+	@Override
+	public String editTheme(Integer id,Theme theme) {
+		Theme newTheme = themeRepository.findById(id).get();
+		if(newTheme==null) {
+			throw new ResourceNotFoundException("Theme not found");
+		}
+		if(existsByThemeName(theme.getThemeName()))
+			throw new DuplicateValueException("Theme", "themeName", theme.getThemeName());
+		newTheme.setThemeName(theme.getThemeName());
+		newTheme.setThemeImageURL(theme.getThemeImageURL());
+		newTheme.setThemeDescription(theme.getThemeDescription());
+		newTheme.setThemePhotographer(theme.getThemePhotographer());
+		newTheme.setThemeVideographer(theme.getThemeVideographer());
+		newTheme.setThemeReturnGift(theme.getThemeReturnGift());
+		newTheme.setThemeCost(theme.getThemeCost());
+		
+		themeRepository.save(newTheme);
+		return "Theme edited";
+	}
+
+	@Override
+	public String deleteTheme(Integer id) {
+		Theme theme = themeRepository.findById(id).get();
+		if(theme==null) {
+			throw new ResourceNotFoundException("Theme not found");
+		}
+		themeRepository.deleteById(id);
+		return "Theme deleted";
+	}
 
 }

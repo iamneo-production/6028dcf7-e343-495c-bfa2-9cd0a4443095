@@ -5,6 +5,7 @@ package com.examly.springapp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.examly.springapp.exception.MissingRequiredFieldException;
+import com.examly.springapp.exception.ResourceNotFoundException;
 import com.examly.springapp.model.Theme;
 import com.examly.springapp.service.ThemeService;
 
@@ -42,22 +44,27 @@ public class ThemeController {
 			throw new MissingRequiredFieldException("Theme","themeDescription");
 		}
 
-		Theme newTheme = new Theme();
-		newTheme.setThemeName(theme.getThemeName());
-		newTheme.setThemeImageURL(theme.getThemeImageURL());
-		newTheme.setThemeDescription(theme.getThemeDescription());
-		newTheme.setThemeCost(theme.getThemeCost());
-		newTheme.setThemePhotographer(theme.getThemePhotographer());
-		newTheme.setThemeVideographer(theme.getThemeVideographer());
-		newTheme.setThemeReturnGift(theme.getThemeReturnGift());
-
-		return new ResponseEntity(themeService.saveTheme(newTheme), HttpStatus.CREATED);
+		return new ResponseEntity(themeService.saveTheme(theme), HttpStatus.CREATED);
 	}
 	
-//	@PutMapping("/admin/editTheme/{id}")
-//	public ResponseEntity<?> editTheme(@PathVariable Integer id, @RequestBody Theme theme){
-//		
-//	}
+	@GetMapping("/admin/getTheme")
+	public ResponseEntity<?> getTheme(Integer id){
+		Theme theme = themeService.getTheme(id);
+		if(theme==null) {
+			throw new ResourceNotFoundException("Theme not found");
+		}
+		return new ResponseEntity(themeService.saveTheme(theme), HttpStatus.CREATED);
+	}
+	
+	@PutMapping("/admin/editTheme/{id}")
+	public ResponseEntity<?> editTheme(@PathVariable Integer id, @RequestBody Theme theme){
+		return new ResponseEntity(themeService.editTheme(id, theme), HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/admin/deleteTheme/{id}")
+	public ResponseEntity<?> deleteTheme(Integer id){
+		return new ResponseEntity(themeService.deleteTheme(id), HttpStatus.NO_CONTENT);
+	}
 
 	// ========= USER THEME
 	
