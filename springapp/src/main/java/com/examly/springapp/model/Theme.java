@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -18,6 +19,7 @@ public class Theme {
 
 	@NotNull
 	@Column(unique = true)
+	@Size(min=5,max=30)
 	private String themeName;
 	@NotNull
 	private String themeImageURL;
@@ -51,6 +53,14 @@ public class Theme {
 		this.themeImageURL = themeImageURL;
 		this.themeDescription = themeDescription;
 		this.themeCost = themeCost;
+	}
+
+	public Integer getThemeId() {
+		return themeId;
+	}
+
+	public void setThemeId(Integer themeId) {
+		this.themeId = themeId;
 	}
 
 	public String getThemeName() {

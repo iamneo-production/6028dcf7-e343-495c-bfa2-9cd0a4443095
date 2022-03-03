@@ -36,6 +36,12 @@ public class GlobalExceptionHandler extends RuntimeException{
 	public ResponseEntity<?> handleBadVerificationTokenException(BadVerificationTokenException exc){
 		return new ResponseEntity(exc.getLocalizedMessage(), HttpStatus.UNAUTHORIZED);
 	}
+
+	//UnverifiedUserException
+	@ExceptionHandler(UnverifiedUserException.class)
+	public ResponseEntity<?> handleUnverifiedUserException(UnverifiedUserException exc){
+		return new ResponseEntity(exc.getLocalizedMessage(), HttpStatus.UNAUTHORIZED);
+	}
 	
 	// TODO: Classify more specific exceptions
 	
@@ -45,7 +51,6 @@ public class GlobalExceptionHandler extends RuntimeException{
 			return environment.equals("development") ? 
 					new ResponseEntity<>(exc.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
 					: new ResponseEntity<>("Something Went Wrong", HttpStatus.INTERNAL_SERVER_ERROR);
-					// : ResponseEntity.internalServerError().body("Something Went Wrong");
 	}
 }
 
