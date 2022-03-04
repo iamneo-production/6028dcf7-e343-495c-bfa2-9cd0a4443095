@@ -1,4 +1,4 @@
-package com.examly.springapp.service;
+	package com.examly.springapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -43,20 +43,31 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String editUser(Integer id, User newUser) {
-//		if(userRepository.findById(id)==null) {
-//			throw new ResourceNotFoundException("User not found with id: "+id);
-//		}
-//		userRepository.findById(id)
-//		.map(user->{
-//			user.setEmail(newUser.getEmail());
-//			user.setMobileNumber(newUser.getMobileNumber());
-//			if(newUser.getPassword()!=null) {
-//				user.setPassword(newUser.getPassword());
-//			}
-//		})
-		return null;
+	public User displayUser(Integer id) {
+		return userRepository.findById(id).orElseThrow(null);
 	}
+
+	@Override
+	public String editUser(Integer id, User newUser) {
+		userRepository.save(null);
+		return "incomplete";
+	}
+
+// 	@Override
+// 	public String editUser(Integer id, User newUser) {
+// //		if(userRepository.findById(id)==null) {
+// //			throw new ResourceNotFoundException("User not found with id: "+id);
+// //		}
+// //		userRepository.findById(id)
+// //		.map(user->{
+// //			user.setEmail(newUser.getEmail());
+// //			user.setMobileNumber(newUser.getMobileNumber());
+// //			if(newUser.getPassword()!=null) {
+// //				user.setPassword(newUser.getPassword());
+// //			}
+// //		})
+// 		return null;
+// 	}
 
 	@Override
 	public Boolean checkUsernameExists(String username) {
@@ -82,5 +93,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public VerificationToken getVerificationToken(String token) {
 		return tokenRepository.findByToken(token);
+	}
+
+	// for access verification in controller
+	@Override
+	public User getUserById(Integer id) {
+		return userRepository.findById(id).orElse(null);
 	}
 }
