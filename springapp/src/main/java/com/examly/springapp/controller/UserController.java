@@ -1,8 +1,6 @@
 package com.examly.springapp.controller;
 
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,8 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.examly.springapp.exception.BadVerificationTokenException;
+import com.examly.springapp.exception.*;
 import com.examly.springapp.model.User;
+import com.examly.springapp.model.MyUserDetails;
 import com.examly.springapp.model.VerificationToken;
 import com.examly.springapp.repository.UserRepository;
 import com.examly.springapp.repository.VerificationTokenRepository;
@@ -34,12 +33,6 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	@Autowired
-	UserRepository userRepository;
-
-	@Autowired
-	VerificationTokenRepository tokenRepository;
-	
 	@GetMapping("/user/test")
 	public String test() {
 
@@ -48,30 +41,54 @@ public class UserController {
 		return "OK";
 	}
 
-	@GetMapping("/user/verify-registration")
-	public ResponseEntity<?> verifyRegistration(@RequestParam String token) {
-		
-		VerificationToken verificationToken = userService.getVerificationToken(token);
-		
-		if(verificationToken==null) {
-			throw new BadVerificationTokenException("Invalid Token");
+	@GetMapping("/user/viewUser/{id}")
+	public ResponseEntity<?> displayUser(@PathVariable Integer id){
+		User user = userService.displayUser(id);				
+
+		if(user!=null ) {
+			// admin has access to all user details
+			if(isRequestUserAdmin()) {
+				return new ResponseEntity(user, HttpStatus.OK);	
+			}
+			// user has access only to self details
+			user.setPassword("****");
+			if(isRequestUserAccessUser(id)) // user performing operations on itself
+				return new ResponseEntity(user, HttpStatus.OK);
+			else
+				throw new UnauthorizedAccessException("Permission Denied");
 		}
-		
-		User user = verificationToken.getUser();
-		Calendar cal = Calendar.getInstance();
-		if((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-			throw new BadVerificationTokenException("Token Expired");
-		}
-		user.setEnabled(true);
-		userRepository.save(user);
-		verificationToken.setExpiryDate(new Date(cal.getTime().getTime()));
-		tokenRepository.save(verificationToken);
-		return new ResponseEntity("Account activated", HttpStatus.OK);
+		throw new ResourceNotFoundException("User not found");
 	}
 	
 	@PutMapping("/editUser/{id}")
 	public ResponseEntity<?> editUser(@RequestBody User user, @PathVariable Integer id) {
-//		return new ResponseEntity(userService.editUser(id,user));
-		return null;
+		User user2 = userService.getUserById(id);
+		user2.setEmail(user.getEmail());
+		user.setMobileNumber(user.getMobileNumber());
+		if(userService.checkUsernameExists(user.getUsername())) throw new DuplicateValueException("User", "username", user.getUsername());
+		user.setUsername(user.getUsername());
+		if(user2==null) {
+			throw new ResourceNotFoundException("User not found");
+		}
+		if(isRequestUserAdmin()) {
+			return new ResponseEntity(userService.editUser(id, user), HttpStatus.CREATED);
+		}
+		if(isRequestUserAccessUser(id)) {
+			return new ResponseEntity(userService.editUser(id, user), HttpStatus.CREATED);			
+		}
+		throw new UnauthorizedAccessException("Permission Denied");
+	}
+	
+	private boolean isRequestUserAccessUser(Integer id){
+		MyUserDetails currentUser = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = userService.getUserById(id);
+		if(currentUser.getUsername().equals(user.getEmail()))
+			return true;
+		return false;
+	}
+	
+	private boolean isRequestUserAdmin() {
+		MyUserDetails currentUser = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return currentUser.getAuthorities().stream().anyMatch(gA->gA.getAuthority().equals("ROLE_ADMIN"));
 	}
 }

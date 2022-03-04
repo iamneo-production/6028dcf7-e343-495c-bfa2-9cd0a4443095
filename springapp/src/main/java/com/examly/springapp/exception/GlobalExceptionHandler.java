@@ -42,6 +42,12 @@ public class GlobalExceptionHandler extends RuntimeException{
 	public ResponseEntity<?> handleUnverifiedUserException(UnverifiedUserException exc){
 		return new ResponseEntity(exc.getLocalizedMessage(), HttpStatus.UNAUTHORIZED);
 	}
+
+	//UnauthorizedAccessException
+	@ExceptionHandler(UnauthorizedAccessException.class)
+	public ResponseEntity<?> handleUnauthorizedAccessException(UnauthorizedAccessException exc) {
+		return new ResponseEntity(exc.getLocalizedMessage(), HttpStatus.FORBIDDEN);
+	}
 	
 	// TODO: Classify more specific exceptions
 	
