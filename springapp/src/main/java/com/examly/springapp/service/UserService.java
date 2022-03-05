@@ -13,4 +13,5 @@ public interface UserService {
 	VerificationToken getVerificationToken(String token);
 	User displayUser(Integer id);
 	User getUserById(Integer id);
+	User getUserByEmail(String email);
 }
