@@ -48,6 +48,12 @@ public class GlobalExceptionHandler extends RuntimeException{
 	public ResponseEntity<?> handleUnauthorizedAccessException(UnauthorizedAccessException exc) {
 		return new ResponseEntity(exc.getLocalizedMessage(), HttpStatus.FORBIDDEN);
 	}
+
+	// ResourceNotFoundException
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException exc){
+		return new ResponseEntity(exc.getLocalizedMessage(), HttpStatus.NOT_FOUND);
+	}
 	
 	// TODO: Classify more specific exceptions
 	
