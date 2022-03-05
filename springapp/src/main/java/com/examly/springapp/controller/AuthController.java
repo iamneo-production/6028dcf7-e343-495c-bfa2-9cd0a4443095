@@ -3,11 +3,13 @@ package com.examly.springapp.controller;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,9 +37,12 @@ import com.examly.springapp.model.AuthenticationResponse;
 import com.examly.springapp.security.jwt.JwtUtil;
 import com.examly.springapp.service.UserService;
 
+import com.examly.springapp.event.PasswordResetEvent;
 import com.examly.springapp.exception.UnverifiedUserException;
 import com.examly.springapp.exception.BadVerificationTokenException;
+import com.examly.springapp.exception.ResourceNotFoundException;
 import com.examly.springapp.model.MyUserDetails;
+import com.examly.springapp.model.PasswordResetRequest;
 
 @RestController
 public class AuthController {
@@ -59,6 +64,9 @@ public class AuthController {
 	
 	@Autowired
 	private JwtUtil jwtTokenUtil;
+
+	@Autowired
+	ApplicationEventPublisher eventPublisher;
 
 	@PostMapping("/user/signup")
 	public ResponseEntity<?> addUser(@RequestBody User user, HttpServletRequest request){
@@ -112,6 +120,21 @@ public class AuthController {
 		verificationToken.setExpiryDate(new Date(cal.getTime().getTime()));
 		tokenRepository.save(verificationToken);
 		return new ResponseEntity("Account activated", HttpStatus.OK);
+	}
+
+	@PostMapping("/user/reset-password")
+	public ResponseEntity<?> resetPassword(@RequestBody PasswordResetRequest prReq, HttpServletRequest request){
+		String email = prReq.getEmail();
+		User user = userService.getUserByEmail(email);
+		if(user==null){
+			throw new ResourceNotFoundException("User not found");
+		}
+		String token = UUID.randomUUID().toString();
+		// TODO: delete previous tokens for user
+		userService.createVerificationToken(user, token);
+		String k = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+		eventPublisher.publishEvent(new PasswordResetEvent(user, k));
+		return new ResponseEntity("Password reset link sent", HttpStatus.OK);
 	}
 	
 //	@PostMapping("/user/login/password-reset")
