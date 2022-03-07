@@ -29,6 +29,7 @@ public class PasswordResetEventListener implements ApplicationListener<PasswordR
 	@Override
 	public void onApplicationEvent(PasswordResetEvent event) {
 		try {
+			System.out.println("Initiated");
 			this.sendPasswordResetLink(event);
 		}catch (Exception e) {
 			System.out.println(e);
