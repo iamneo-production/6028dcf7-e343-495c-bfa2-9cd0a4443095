@@ -72,15 +72,10 @@ public class AuthController {
 
 	@PostMapping("/user/signup")
 	public ResponseEntity<?> addUser(@RequestBody User user, HttpServletRequest request){
-		User newUser = new User();
-		newUser.setEmail(user.getEmail());
-		newUser.setUsername(user.getUsername());
-		newUser.setUserRole("ROLE_USER");
-		newUser.setEnabled(false);
-		newUser.setPassword(passwordEncoder().encode(user.getPassword()));
-		newUser.setMobileNumber(user.getMobileNumber());
-		String k = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-		return new ResponseEntity(userService.saveUser(newUser, k), HttpStatus.CREATED);
+		user.setUserRole("ROLE_USER");
+		user.setPassword(passwordEncoder().encode(user.getPassword()));
+		String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+		return new ResponseEntity(userService.saveUser(user, baseUrl), HttpStatus.CREATED);
 	}
 	
 	
@@ -99,7 +94,7 @@ public class AuthController {
 				.loadUserByUsername(authenticationRequest.getEmail());
 		
 		final String jwt = jwtTokenUtil.generateToken(userDetails);
-		Collection<SimpleGrantedAuthority> k = (Collection<SimpleGrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+		// Collection<SimpleGrantedAuthority> k = (Collection<SimpleGrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		return ResponseEntity.ok(new AuthenticationResponse(jwt));
 	}
 
@@ -134,8 +129,8 @@ public class AuthController {
 		String token = UUID.randomUUID().toString();
 		// TODO: delete previous tokens for user
 		userService.createVerificationToken(user, token);
-		String k = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-		eventPublisher.publishEvent(new PasswordResetEvent(user, k));
+		String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+		eventPublisher.publishEvent(new PasswordResetEvent(user, baseUrl));
 		return new ResponseEntity("Password reset link sent", HttpStatus.OK);
 	}
 	

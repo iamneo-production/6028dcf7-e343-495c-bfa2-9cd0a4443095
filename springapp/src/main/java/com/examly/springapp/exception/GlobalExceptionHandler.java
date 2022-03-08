@@ -6,6 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.mail.AuthenticationFailedException;
+import javax.validation.ConstraintViolationException;
+
 @ControllerAdvice
 public class GlobalExceptionHandler extends RuntimeException{
 
@@ -53,6 +56,18 @@ public class GlobalExceptionHandler extends RuntimeException{
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException exc){
 		return new ResponseEntity(exc.getLocalizedMessage(), HttpStatus.NOT_FOUND);
+	}
+
+	//javax.mail.AuthenticationFailedException
+	@ExceptionHandler(javax.mail.AuthenticationFailedException.class)
+	public ResponseEntity<?> handleAuthenticationFailedException(AuthenticationFailedException exc){
+		return new ResponseEntity(exc.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
+	}
+
+	//ConstraintViolationException
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<?> handleConstraintViolationException(ConstraintViolationException exc){
+		return new ResponseEntity(exc.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
 	}
 	
 	// TODO: Classify more specific exceptions
