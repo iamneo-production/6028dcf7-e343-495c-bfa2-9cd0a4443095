@@ -21,15 +21,7 @@ public class ThemeServiceImpl implements ThemeService {
 		if(existsByThemeName(theme.getThemeName())) {
 			throw new DuplicateValueException("Theme", "themeName", theme.getThemeName());
 		}
-		Theme newTheme = new Theme();
-		newTheme.setThemeName(theme.getThemeName());
-		newTheme.setThemeImageURL(theme.getThemeImageURL());
-		newTheme.setThemeDescription(theme.getThemeDescription());
-		newTheme.setThemeCost(theme.getThemeCost());
-		newTheme.setThemePhotographer(theme.getThemePhotographer());
-		newTheme.setThemeVideographer(theme.getThemeVideographer());
-		newTheme.setThemeReturnGift(theme.getThemeReturnGift());
-		themeRepository.save(newTheme);
+		themeRepository.save(theme);
 		return "Theme added";
 	}
 

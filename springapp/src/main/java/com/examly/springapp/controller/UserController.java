@@ -62,16 +62,22 @@ public class UserController {
 		throw new ResourceNotFoundException("User not found");
 	}
 	
-	@PutMapping("/editUser/{id}")
+	@PutMapping("user/editUser/{id}")
 	public ResponseEntity<?> editUser(@RequestBody User user, @PathVariable Integer id) {
 		User user2 = userService.getUserById(id);
-		user2.setEmail(user.getEmail());
-		user.setMobileNumber(user.getMobileNumber());
-		if(userService.checkUsernameExists(user.getUsername())) throw new DuplicateValueException("User", "username", user.getUsername());
-		user.setUsername(user.getUsername());
+		
 		if(user2==null) {
 			throw new ResourceNotFoundException("User not found");
 		}
+
+		// if(userService.checkUsernameExists(user.getUsername())) throw new DuplicateValueException("User", "username", user.getUsername());
+		// if(userService.checkEmailExists(user.getEmail())) throw new DuplicateValueException("User", "email", user.getEmail());
+		// if(userService.checkMobileNumberExists(user.getMobileNumber())) throw new DuplicateValueException("User", "mobileNumber", user.getMobileNumber());
+		
+		
+		user.setUsername(user.getUsername());
+		user2.setEmail(user.getEmail());
+		user.setMobileNumber(user.getMobileNumber());
 		if(isRequestUserAdmin()) {
 			return new ResponseEntity(userService.editUser(id, user), HttpStatus.CREATED);
 		}
