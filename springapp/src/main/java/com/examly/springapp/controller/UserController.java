@@ -50,7 +50,7 @@ public class UserController {
 		if(user!=null ) {
 			// admin has access to all user details
 			if(isRequestUserAdmin()) {
-				return new ResponseEntity(user, HttpStatus.OK);	
+				return new ResponseEntity(user, HttpStatus.OK);
 			}
 			// user has access only to self details
 			user.setPassword("****");
