@@ -28,7 +28,9 @@ public class User {
 	private String password;
 	
 	@NotNull
-	@Size(min=5,max=15)
+
+	@Size(min=5,max=30)
+
 	@Column(unique=true)
 	private String username;
 	
