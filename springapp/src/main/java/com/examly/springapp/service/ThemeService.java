@@ -8,9 +8,11 @@ public interface ThemeService {
 	//admin theme
 	String saveTheme(Theme theme);
 	Boolean existsByThemeName(String themeName);
+
 	List<Theme> getTheme();
 	String editTheme(Integer id, Theme theme);
 	String deleteTheme(Integer id);
+
 
 	// user theme
 	List<Theme> getAllThemes();

@@ -11,7 +11,9 @@ public interface UserService {
 	Boolean checkMobileNumberExists(String mobNo);
 	void createVerificationToken(User user, String token);
 	VerificationToken getVerificationToken(String token);
+
 	User displayUser(Integer id);
 	User getUserById(Integer id);
 	User getUserByEmail(String email);
+
 }

@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.examly.springapp.exception.DuplicateValueException;
+
 import com.examly.springapp.exception.ResourceNotFoundException;
+
 import com.examly.springapp.model.Theme;
 import com.examly.springapp.repository.ThemeRepository;
 
@@ -22,12 +24,14 @@ public class ThemeServiceImpl implements ThemeService {
 			throw new DuplicateValueException("Theme", "themeName", theme.getThemeName());
 		}
 		themeRepository.save(theme);
+
 		return "Theme added";
 	}
 
 	@Override
 	public Boolean existsByThemeName(String themeName) {
 		return themeRepository.existsByThemeName(themeName);
+
 	}
 
 	@Override
@@ -36,6 +40,20 @@ public class ThemeServiceImpl implements ThemeService {
 	}
 
 	@Override
+
+	public Boolean existsByThemeName(String themeName) {
+		return themeRepository.existsByThemeName(themeName);
+	}
+
+//	@Override
+//	public String editTheme(Integer id, Theme theme) {
+//		if(themeRepository.findById(id)==null) {
+//			throw new ResourceNotFoundException("Theme with id "+id+" not found.");
+//		}
+//		themeRepository.findById(id).map(
+//				
+//			)
+//	}
 	public List<Theme> getTheme() {
 		return themeRepository.findAll();
 	}
@@ -71,5 +89,6 @@ public class ThemeServiceImpl implements ThemeService {
 		themeRepository.deleteById(id);
 		return "Theme deleted";
 	}
+
 
 }
