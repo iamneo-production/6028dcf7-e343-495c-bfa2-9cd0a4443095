@@ -1,0 +1,52 @@
+<div class="col-md-6 offset-md-3 mt-4" id="container">
+
+    <h3 align="center" class="display-1"><mat-icon color="accent">eco</mat-icon>BEM</h3>       
+    <h4 align="center">Login</h4>
+      <form [formGroup]="loginForm" (ngSubmit)="LoginUser()">
+  
+        <div *ngIf="error1" class="invalid-feedback">
+          {{error1}}
+       </div>
+       <div *ngIf="messageFromService" class="invalid-feedback">
+        {{messageFromService}}
+     </div>
+          
+        <input id="email" type="email" placeholder="Enter email" name="email"  formControlName="email" [(ngModel)]="user.email"
+          [ngClass]="{ 'is-invalid': submitted && f['email'].errors }">
+        <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+          <div *ngIf="f['email'].errors['required']">Email is required</div>
+          <div *ngIf="f['email'].errors['email']">Email is invalid</div>
+        </div>
+        <br><br>
+    
+        <input id="password" type="password" placeholder="Enter password" formControlName="password" [(ngModel)]="user.password"
+          [ngClass]="{ 'is-invalid': submitted && f['password'].errors }">
+        <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+          <div *ngIf="f['password'].errors['required']">Password is required</div>
+          <div *ngIf="f['password'].errors['minlength']">
+            Password must be at least 8 characters
+          </div>
+          <div *ngIf="f['password'].errors['maxlength']">
+            Username must not exceed 40 characters
+          </div>
+        </div>
+        <br><br>
+    
+        <button type="submit" class="btn btn-dark" id="loginButton">Login</button>
+    
+    
+        <p></p>
+        
+        <div class="form-group form-check">
+          New User/admin?
+          <a [routerLink]="['']" id="signupLink">SignUp</a>
+        </div>
+        <div class="form-group form-check">
+           Forgot your password?
+          <a [routerLink]="['forgot-password']" id="Forgot-Password">Forgot-Password</a>
+        </div>
+      </form>
+    
+    </div>
+    
+  
