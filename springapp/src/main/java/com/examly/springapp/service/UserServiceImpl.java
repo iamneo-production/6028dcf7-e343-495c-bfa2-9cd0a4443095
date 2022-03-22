@@ -1,6 +1,4 @@
-
-	package com.examly.springapp.service;
-
+package com.examly.springapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -45,9 +43,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-
-
-
 	public User displayUser(Integer id) {
 		return userRepository.findById(id).orElseThrow(null);
 	}
@@ -73,7 +68,6 @@ public class UserServiceImpl implements UserService {
 // //		})
 // 		return null;
 // 	}
-
 
 	@Override
 	public Boolean checkUsernameExists(String username) {
@@ -101,7 +95,6 @@ public class UserServiceImpl implements UserService {
 		return tokenRepository.findByToken(token);
 	}
 
-
 	// for access verification in controller
 	@Override
 	public User getUserById(Integer id) {
@@ -112,5 +105,4 @@ public class UserServiceImpl implements UserService {
 	public User getUserByEmail(String email){
 		return userRepository.findByEmail(email).orElse(null);
 	}
-
 }

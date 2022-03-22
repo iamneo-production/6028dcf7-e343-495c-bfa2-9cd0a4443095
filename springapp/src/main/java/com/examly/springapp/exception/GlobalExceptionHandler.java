@@ -6,10 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-
 import javax.mail.AuthenticationFailedException;
 import javax.validation.ConstraintViolationException;
-
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends RuntimeException{
@@ -42,7 +40,6 @@ public class GlobalExceptionHandler extends RuntimeException{
 		return new ResponseEntity(exc.getLocalizedMessage(), HttpStatus.UNAUTHORIZED);
 	}
 
-
 	//UnverifiedUserException
 	@ExceptionHandler(UnverifiedUserException.class)
 	public ResponseEntity<?> handleUnverifiedUserException(UnverifiedUserException exc){
@@ -72,7 +69,6 @@ public class GlobalExceptionHandler extends RuntimeException{
 	public ResponseEntity<?> handleConstraintViolationException(ConstraintViolationException exc){
 		return new ResponseEntity(exc.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
 	}
-
 	
 	// TODO: Classify more specific exceptions
 	
@@ -82,11 +78,5 @@ public class GlobalExceptionHandler extends RuntimeException{
 			return environment.equals("development") ? 
 					new ResponseEntity<>(exc.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR)
 					: new ResponseEntity<>("Something Went Wrong", HttpStatus.INTERNAL_SERVER_ERROR);
-
 	}
 }
-
-
-
-
-
