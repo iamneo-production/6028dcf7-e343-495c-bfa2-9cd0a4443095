@@ -4,9 +4,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
-
 import javax.persistence.CascadeType;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -28,9 +26,7 @@ public class VerificationToken {
 	private String token;
 	
 	@NotNull
-
 	// @OneToOne(cascade=CascadeType.REMOVE, orphanRemoval=true,targetEntity = User.class, fetch = FetchType.EAGER)
-
 	@OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
 	@JoinColumn(nullable = false, name = "user_id")
 	private User user;

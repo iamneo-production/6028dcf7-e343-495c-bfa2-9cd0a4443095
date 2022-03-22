@@ -1,33 +1,24 @@
 package com.examly.springapp.controller;
 
-
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
-
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-
 import org.springframework.context.ApplicationEventPublisher;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,22 +30,18 @@ import com.examly.springapp.model.User;
 import com.examly.springapp.repository.UserRepository;
 import com.examly.springapp.repository.VerificationTokenRepository;
 import com.examly.springapp.model.VerificationToken;
-
 import com.examly.springapp.model.AuthenticationRequest;
 import com.examly.springapp.model.AuthenticationResponse;
 import com.examly.springapp.security.jwt.JwtUtil;
 import com.examly.springapp.service.UserService;
 
-
 import com.examly.springapp.event.PasswordResetEvent;
 import com.examly.springapp.exception.UnverifiedUserException;
 import com.examly.springapp.exception.BadVerificationTokenException;
 import com.examly.springapp.exception.ResourceNotFoundException;
-import com.examly.springapp.model.MyUserDetails;
 import com.examly.springapp.model.PasswordResetRequest;
 
 @CrossOrigin
-
 @RestController
 public class AuthController {
 	
@@ -67,17 +54,14 @@ public class AuthController {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-
 	@Autowired
 	UserRepository userRepository;
 
 	@Autowired
 	VerificationTokenRepository tokenRepository;
-
 	
 	@Autowired
 	private JwtUtil jwtTokenUtil;
-
 
 	@Autowired
 	ApplicationEventPublisher eventPublisher;
@@ -88,7 +72,7 @@ public class AuthController {
 		user.setPassword(passwordEncoder().encode(user.getPassword()));
 		String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
 		return new ResponseEntity(userService.saveUser(user, baseUrl), HttpStatus.CREATED);
-
+	}
 	
 	
 	@PostMapping("/user/login")
@@ -100,15 +84,12 @@ public class AuthController {
 		}catch(BadCredentialsException e) {
 			throw new com.examly.springapp.exception.BadCredentialsException("Incorrect email or password");
 		}catch (DisabledException e) {
-
 			throw new UnverifiedUserException("User is not verified");
-
 		}
 		final UserDetails userDetails = userDetailsService
 				.loadUserByUsername(authenticationRequest.getEmail());
 		
 		final String jwt = jwtTokenUtil.generateToken(userDetails);
-
 		// Collection<SimpleGrantedAuthority> k = (Collection<SimpleGrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		return ResponseEntity.ok(new AuthenticationResponse(jwt));
 	}
@@ -148,7 +129,6 @@ public class AuthController {
 		eventPublisher.publishEvent(new PasswordResetEvent(user, baseUrl));
 		return new ResponseEntity("Password reset link sent", HttpStatus.OK);
 	}
-
 	
 //	@PostMapping("/user/login/password-reset")
 //	public ResponseEntity<T>

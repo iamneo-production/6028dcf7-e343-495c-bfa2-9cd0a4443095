@@ -1,10 +1,18 @@
 package com.examly.springapp.model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -28,9 +36,7 @@ public class User {
 	private String password;
 	
 	@NotNull
-
 	@Size(min=5,max=30)
-
 	@Column(unique=true)
 	private String username;
 	
@@ -45,6 +51,10 @@ public class User {
 
 	@NotNull
 	private boolean enabled;
+	
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	@JoinColumn(name = "user_id", nullable = false)
+	private Set<Event> events = new HashSet<>();
 
 	public User() {
 		super();
