@@ -28,7 +28,7 @@ public class ThemeController {
 
 	// ========= ADMIN THEME
 	
-	@PostMapping("/dev/addTheme")
+	@PostMapping("/admin/addTheme")
 	public ResponseEntity<?> addTheme(@RequestBody Theme theme) {
 		if (theme.getThemeName() == null) {
 			throw new MissingRequiredFieldException("Theme","themeName");

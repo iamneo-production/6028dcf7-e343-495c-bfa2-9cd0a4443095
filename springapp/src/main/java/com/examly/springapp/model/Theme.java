@@ -1,10 +1,17 @@
 package com.examly.springapp.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -30,6 +37,10 @@ public class Theme {
 	private String themeReturnGift;
 	@NotNull
 	private Long themeCost;
+	
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@JoinColumn(name="theme_id")
+	private List<ThemeReview> reviews = new ArrayList<>();
 
 	public Theme() {
 		super();
@@ -117,6 +128,14 @@ public class Theme {
 
 	public void setThemeCost(Long themeCost) {
 		this.themeCost = themeCost;
+	}
+
+	public List<ThemeReview> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<ThemeReview> reviews) {
+		this.reviews = reviews;
 	}
 
 }
