@@ -70,10 +70,10 @@ public class UserController {
 		user2.setEmail(user.getEmail());
 		user.setMobileNumber(user.getMobileNumber());
 		if(isRequestUserAdmin()) {
-			return new ResponseEntity(userService.editUser(id, user), HttpStatus.CREATED);
+			return new ResponseEntity(userService.editUser(id, user), HttpStatus.OK);
 		}
 		if(isRequestUserAccessUser(id)) {
-			return new ResponseEntity(userService.editUser(id, user), HttpStatus.CREATED);			
+			return new ResponseEntity(userService.editUser(id, user), HttpStatus.OK);			
 		}
 		throw new UnauthorizedAccessException("Permission Denied");
 	}

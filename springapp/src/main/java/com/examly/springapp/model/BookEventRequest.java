@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class BookEventRequest {
 	private String eventName;
-//	private String applicantName;
+	private String applicantName;
 	private String applicantAddress;
 
 	/*
@@ -30,13 +30,13 @@ public class BookEventRequest {
 		this.eventName = eventName;
 	}
 
-//	public String getApplicantName() {
-//		return applicantName;
-//	}
-//
-//	public void setApplicantName(String applicantName) {
-//		this.applicantName = applicantName;
-//	}
+	public String getApplicantName() {
+		return applicantName;
+	}
+
+	public void setApplicantName(String applicantName) {
+		this.applicantName = applicantName;
+	}
 
 	public String getApplicantAddress() {
 		return applicantAddress;

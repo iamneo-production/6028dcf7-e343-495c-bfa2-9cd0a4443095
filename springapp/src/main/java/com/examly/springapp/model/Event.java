@@ -49,10 +49,8 @@ public class Event {
 					@JoinColumn(name = "addonId", nullable = false) })
 	private Set<AddOn> eventAddonsId = new HashSet<>();
 
-
-
 	@NotNull
-	private long eventCost = 69l;
+	private long eventCost;
 
 	public Event() {
 		super();
