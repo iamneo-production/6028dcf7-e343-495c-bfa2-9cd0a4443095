@@ -31,6 +31,7 @@ public class Event {
 	private String applicantMobile;
 	private String applicantEmail;
 	private String eventAddress;
+	private String eventStatus; // ENUM [BOOKED, CANCELLED, COMPLETED, REFUNDED]
 	private Date eventDate; // 2012-04-23T18:25:43.511Z
 
 	@OneToOne
@@ -148,6 +149,20 @@ public class Event {
 	public void setEventAddonsId(Set<AddOn> eventAddonsId) {
 		this.eventAddonsId = eventAddonsId;
 	}
-	
-	
+
+	public String getEventStatus() {
+		return eventStatus;
+	}
+
+	public void setEventStatus(String eventStatus) {
+		this.eventStatus = eventStatus;
+	}
+
+	public long getEventCost() {
+		return eventCost;
+	}
+
+	public void setEventCost(long eventCost) {
+		this.eventCost = eventCost;
+	}
 }
