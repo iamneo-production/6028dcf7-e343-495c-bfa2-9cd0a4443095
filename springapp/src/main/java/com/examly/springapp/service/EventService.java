@@ -9,4 +9,5 @@ public interface EventService {
 
 	Event getEventById(int id);
 	String bookEvent(BookEventRequest bookEventRequest, HttpServletRequest request);
+	String cancelEvent(int eventId,HttpServletRequest request);
 }

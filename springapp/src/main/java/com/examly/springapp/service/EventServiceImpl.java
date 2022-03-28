@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 
+import com.examly.springapp.exception.UnauthorizedAccessException;
 import com.examly.springapp.model.AddOn;
 import com.examly.springapp.model.BookEventRequest;
 import com.examly.springapp.model.Event;
@@ -64,7 +65,6 @@ public class EventServiceImpl implements EventService {
 		event.setApplicantAddress(bookEventRequest.getApplicantAddress());
 		event.setApplicantEmail(user.getEmail());
 		event.setApplicantMobile(user.getMobileNumber());
-		// event.set
 
 		// 2. Map Theme
 		Theme theme = themeRepository.findById(bookEventRequest.getThemeId()).get();
@@ -91,12 +91,39 @@ public class EventServiceImpl implements EventService {
 		event.setEventTheme(theme);
 		event.setEventMenu(menu);
 		event.setEventAddonsId(addOns);
+		event.setEventCost(this.calculateEventCost(addOns, foodItems, theme));
+		event.setEventStatus("BOOKED");
 		user.getEvents().add(event);
 
 		eventRepository.save(event);
 
 		// TODO: Send mail
 		return "Event Booked";
+	}
+
+	private long calculateEventCost(Set<AddOn> addons, Set<FoodItem> foodItems, Theme theme){
+		long cost = 0;
+		for(FoodItem fi : foodItems){
+			cost+=fi.getFoodItemPrice();
+		}
+		for(AddOn a : addons){
+			cost+=a.getAddonPrice();
+		}
+		cost+=theme.getThemeCost();
+
+		return cost;
+	}
+
+	@Override
+	public String cancelEvent(int eventId, HttpServletRequest request) {
+		Event event = getEventById(eventId);
+		User user = userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+		if(user.getEvents().contains(event)){
+			event.setEventStatus("CANCELLED");
+			eventRepository.save(event);
+			return "Event Cancelled";
+		}
+		throw new UnauthorizedAccessException("Permission Denied");
 	}
 
 }
