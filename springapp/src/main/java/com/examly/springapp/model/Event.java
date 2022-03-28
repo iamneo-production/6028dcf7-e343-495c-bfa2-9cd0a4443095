@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,34 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-/**
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- *  This class is in development.
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- */
 
 @Entity
 @Table
@@ -55,27 +31,23 @@ public class Event {
 	private String applicantMobile;
 	private String applicantEmail;
 	private String eventAddress;
-	private Date eventDate; //2012-04-23T18:25:43.511Z
+	private Date eventDate; // 2012-04-23T18:25:43.511Z
 
-//	@NotNull
-//	@OneToOne(cascade = CascadeType.PERSIST)
-//	private Theme eventTheme;
-	
+	@OneToOne
+	@JoinColumn(name="theme_id")
+	private Theme eventTheme;
+
 	@NotNull
-	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToOne(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "menu_id")
 	private Menu eventMenu;
-	
-	
+
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name="events_addon",
-			joinColumns = {@JoinColumn(name="eventId",nullable = false)},
-			inverseJoinColumns = {@JoinColumn(name="addonId", nullable = false)}
-			)
+	@JoinTable(name = "event_addons", joinColumns = {
+			@JoinColumn(name = "eventId", nullable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "addonId", nullable = false) })
 	private Set<AddOn> eventAddonsId = new HashSet<>();
-
-//	@ManyToOne(cascade = CascadeType.PERSIST)
-//	private User bookedByUser;
 
 	@NotNull
 	private long eventCost;
@@ -83,22 +55,11 @@ public class Event {
 	public Event() {
 		super();
 	}
-	
-	
 
-//	public Event(String eventName,
-//			 Date eventDate) {
-//		this.eventName = eventName;
-//		this.applicantName = "Test Name";
-//		this.appicantAddress = "appicantAddress";
-//		this.applicantMobile = "applicantMobile";
-//		this.applicantEmail = "applicantEmail";
-//		this.eventAddress = "eventAddress";
-//		this.eventDate = eventDate;
-//		this.eventCost = 100l;
-//	}
-
-
+	public Event(String eventName) {
+		super();
+		this.eventName = eventName;
+	}
 
 	public int getEventId() {
 		return eventId;
@@ -164,15 +125,21 @@ public class Event {
 		this.eventDate = eventDate;
 	}
 
-//	public Menu getEventMenuId() {
-//		return eventMenuId;
-//	}
-//
-//	public void setEventMenuId(Menu eventMenuId) {
-//		this.eventMenuId = eventMenuId;
-//	}
+	public Theme getEventTheme() {
+		return eventTheme;
+	}
 
+	public void setEventTheme(Theme eventTheme) {
+		this.eventTheme = eventTheme;
+	}
 
+	public Menu getEventMenu() {
+		return eventMenu;
+	}
+
+	public void setEventMenu(Menu eventMenu) {
+		this.eventMenu = eventMenu;
+	}
 
 	public Set<AddOn> getEventAddonsId() {
 		return eventAddonsId;
@@ -181,46 +148,6 @@ public class Event {
 	public void setEventAddonsId(Set<AddOn> eventAddonsId) {
 		this.eventAddonsId = eventAddonsId;
 	}
-
-//	public User getBookedByUser() {
-//		return bookedByUser;
-//	}
-//
-//	public void setBookedByUser(User bookedByUser) {
-//		this.bookedByUser = bookedByUser;
-//	}
-
-	public long getEventCost() {
-		return eventCost;
-	}
-
-	public void setEventCost(long eventCost) {
-		this.eventCost = eventCost;
-	}
-
-
-
-	public Menu getEventMenu() {
-		return eventMenu;
-	}
-
-
-
-	public void setEventMenu(Menu eventMenu) {
-		this.eventMenu = eventMenu;
-	}
-
-
-
-//	@Override
-//	public String toString() {
-//		return "Event [eventId=" + eventId + ", eventName=" + eventName + ", applicantName=" + applicantName
-//				+ ", appicantAddress=" + appicantAddress + ", applicantMobile=" + applicantMobile + ", applicantEmail="
-//				+ applicantEmail + ", eventAddress=" + eventAddress + ", eventDate=" + eventDate + ", eventMenuId="
-//				+ eventMenuId + ", eventAddonsId=" + eventAddonsId + ", bookedByUser=" + bookedByUser + ", eventCost="
-//				+ eventCost + "]";
-//	}
 	
 	
-
 }

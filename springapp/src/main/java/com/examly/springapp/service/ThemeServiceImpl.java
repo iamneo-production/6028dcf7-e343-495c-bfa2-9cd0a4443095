@@ -72,4 +72,9 @@ public class ThemeServiceImpl implements ThemeService {
 		return "Theme deleted";
 	}
 
+	@Override
+	public Theme getThemeById(int id) {
+		return themeRepository.findById(id).get();
+	}
+
 }

@@ -76,7 +76,7 @@ public class Menu {
 			cost+=fi.getFoodItemPrice();
 		}
 		setFoodMenuCost(cost);
-		return getFoodMenuCost();
+		return cost;
 	}
 
 	public void setFoodMenuCost(long foodMenuCost) {

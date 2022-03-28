@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -52,10 +53,18 @@ public class User {
 	@NotNull
 	private boolean enabled;
 	
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToMany(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "user_id", nullable = false)
 	private Set<Event> events = new HashSet<>();
-
+	
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@JoinColumn(name="user_id")
+	private List<ThemeReview> reviews = new ArrayList<>();
+	
+	@OneToMany(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "user_id")
+	private List<AddOnReview> addOnReviews = new ArrayList<>();
+	
 	public User() {
 		super();
 	}
@@ -125,5 +134,31 @@ public class User {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
-	}	
+	}
+
+	public Set<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(Set<Event> events) {
+		this.events = events;
+	}
+
+	public List<ThemeReview> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<ThemeReview> reviews) {
+		this.reviews = reviews;
+	}
+
+	public List<AddOnReview> getAddOnReviews() {
+		return addOnReviews;
+	}
+
+	public void setAddOnReviews(List<AddOnReview> addOnReviews) {
+		this.addOnReviews = addOnReviews;
+	}
+	
+	
 }
