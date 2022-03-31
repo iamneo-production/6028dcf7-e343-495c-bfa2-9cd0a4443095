@@ -18,6 +18,7 @@ public class Menu {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int foodMenuId;
+
 	private String foodMenuType;
 	
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
