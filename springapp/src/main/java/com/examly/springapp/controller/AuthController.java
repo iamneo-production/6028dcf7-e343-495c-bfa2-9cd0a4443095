@@ -68,6 +68,10 @@ public class AuthController {
 
 	@PostMapping("/user/signup")
 	public ResponseEntity<?> addUser(@RequestBody User user, HttpServletRequest request){
+		/** PASSWORD LENGTH CHECK BECAUSE HASHING */
+		if(user.getPassword().length()<8 || user.getPassword().length()>30){
+			throw new RuntimeException("Password length must be between 8 and 30 characters");
+		}
 		user.setUserRole("ROLE_USER");
 		user.setPassword(passwordEncoder().encode(user.getPassword()));
 		String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();

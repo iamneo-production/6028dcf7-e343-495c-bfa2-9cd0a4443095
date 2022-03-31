@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -28,11 +29,11 @@ public class User {
 	private int userId;
 	
 	@Email
-	@NotNull
+	@NotEmpty
 	@Column(unique = true)
 	private String email;
 	
-	@NotNull
+	@NotEmpty
 	// @Size(min=8,max=30) size is the hashed password
 	private String password;
 	
@@ -158,6 +159,12 @@ public class User {
 
 	public void setAddOnReviews(List<AddOnReview> addOnReviews) {
 		this.addOnReviews = addOnReviews;
+	}
+
+	@Override
+	public String toString() {
+		return "User [email=" + email + ", enabled=" + enabled + ", mobileNumber=" + mobileNumber + ", password="
+				+ password + ", userId=" + userId + ", userRole=" + userRole + ", username=" + username + "]";
 	}
 	
 	
