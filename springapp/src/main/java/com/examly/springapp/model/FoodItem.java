@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,6 +25,7 @@ public class FoodItem {
 	@Column(unique = true, nullable = false)
 	private String foodItemName;
 	@NotNull
+	@Min(value=1L)
 	private long foodItemPrice;
 	@NotNull
 	private String foodItemCategory;

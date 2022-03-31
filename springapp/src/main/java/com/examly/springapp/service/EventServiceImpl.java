@@ -1,6 +1,7 @@
 package com.examly.springapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import java.util.Set;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 
+import com.examly.springapp.event.BookingEvent;
 import com.examly.springapp.exception.UnauthorizedAccessException;
 import com.examly.springapp.model.AddOn;
 import com.examly.springapp.model.BookEventRequest;
@@ -45,6 +47,9 @@ public class EventServiceImpl implements EventService {
 
 	@Autowired
 	AddonRepository addonRepository;
+
+	@Autowired
+	ApplicationEventPublisher applicationEventPublisher;
 	
 	@Override
 	public Event getEventById(int id) {
@@ -98,6 +103,8 @@ public class EventServiceImpl implements EventService {
 		eventRepository.save(event);
 
 		// TODO: Send mail
+		String baseURL = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+		applicationEventPublisher.publishEvent(new BookingEvent(baseURL, event, user));
 		return "Event Booked";
 	}
 
@@ -124,6 +131,11 @@ public class EventServiceImpl implements EventService {
 			return "Event Cancelled";
 		}
 		throw new UnauthorizedAccessException("Permission Denied");
+	}
+
+	@Override
+	public Set<Event> viewBookedEvents(HttpServletRequest request) {
+		return userService.getUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).getEvents();
 	}
 
 }
