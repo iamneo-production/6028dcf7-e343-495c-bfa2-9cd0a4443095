@@ -1,0 +1,72 @@
+<h1 mat-dialog-title>Theme</h1>
+<div mat-dialog-content>
+ <form [formGroup]="themeForm">
+    <mat-form-field appearance="outline">
+        <mat-label>Enter Theme Name</mat-label>
+        <input formControlName="themeName"  matInput placeholder="Enter Theme Name" id="themeName" />
+        <mat-error *ngIf="errorHandling('themeName', 'required')">
+            You must provide a <strong>Theme Name</strong>
+         </mat-error>
+    </mat-form-field>
+    
+   <mat-form-field appearance="outline">
+        <mat-label><mat-icon> insert_photo</mat-icon>Enter Image Url</mat-label>
+        <input formControlName="imageUrl" matInput placeholder="Enter Image Url" id="imageUrl"/>
+        <mat-error *ngIf="errorHandling('imageUrl', 'required')">
+            You must provide a <strong>Image Url</strong>
+         </mat-error>
+        </mat-form-field>
+
+
+    <mat-form-field appearance="outline">
+        <mat-label><mat-icon>camera_enhance</mat-icon>Enter Photographer Details</mat-label>
+        <input formControlName="photographerDetails" type="text" matInput placeholder="Enter Photographer Details" id="photographerDetails"/>
+        <mat-error *ngIf="errorHandling('photographerDetails', 'required')">
+            You must provide a <strong>Photographer Details</strong>
+         </mat-error>
+        </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label><mat-icon>videocam</mat-icon>Enter Videographer Details</mat-label>
+        <input formControlName="videographerDetails" type="text" matInput placeholder="Enter Videographer Details" id="videographerDetails"/>
+        <mat-error *ngIf="errorHandling('videographerDetails', 'required')">
+            You must provide a <strong>Videographer Details</strong>
+         </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label><mat-icon>card_giftcard</mat-icon>Return Gift</mat-label>
+        <input formControlName="returnGift" type="text" matInput placeholder="Enter Return Gift" id="returnGift">
+        <mat-error *ngIf="errorHandling('returnGift', 'required')">
+            You must provide a <strong>Return Gift</strong>
+         </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label><mat-icon>credit_card</mat-icon>Theme Cost</mat-label>
+        <input formControlName="themeCost" type="number"  matInput placeholder="Enter Theme Cost" id="themeCost"pattern="^(?!0*(\.0+)?$)(\d+|\d*\.\d+)$"/>
+        <mat-error *ngIf="errorHandling('themeCost', 'required')">
+            You must provide a <strong>Theme Cost</strong>
+         </mat-error>
+         <mat-error *ngIf="errorHandling('themeCost' ,'pattern')">
+            You must provide a <strong>Theme Cost should not be negative or zero</strong>
+         </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label><mat-icon>description</mat-icon>Theme Description</mat-label>
+        <input formControlName="themeDescription" type="text" matInput placeholder="Enter Theme Description" id="themeDescription"/>
+        <mat-error *ngIf="errorHandling('themeDescription', 'required')">
+            You must provide a <strong>Theme Description</strong>
+         </mat-error>
+    </mat-form-field>
+
+    
+    </form>
+</div>
+<div mat-dialog-action [align]="'end'">
+    <button mat-raised-button color="warn" mat-dialog-close>close</button>
+    <button style="margin-left:8px" mat-raised-button color="primary" (click)="addItem()" >{{actionbtn}}</button>
+</div>
+
+
