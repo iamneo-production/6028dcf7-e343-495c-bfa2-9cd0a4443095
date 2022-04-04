@@ -1,0 +1,38 @@
+<h1 mat-dialog-title>Addons</h1>
+<div mat-dialog-content>
+ <form [formGroup]="addonForm">
+    <mat-form-field appearance="outline">
+        <mat-label>Enter Addon Name</mat-label>
+        <input formControlName="addonsName"  matInput placeholder="Enter addonsName" id="addOnsName" />
+        <mat-error *ngIf="errorHandling('addonsName', 'required')">
+            You must provide a <strong>name</strong>
+         </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Enter Addon Price</mat-label>
+        <input formControlName="addonsPrice" type="number"  matInput  placeholder="addonsPrice" id="addOnsPrice" pattern="^(?!0*(\.0+)?$)(\d+|\d*\.\d+)$" required/>
+        <mat-error *ngIf="errorHandling('addonsPrice', 'required')">
+            You must provide a <strong>Price</strong>
+         </mat-error>
+         
+         <mat-error *ngIf="errorHandling('addonsPrice', 'pattern')">
+            You must provide a <strong>number only and it should not be zero or negative value  </strong>
+         </mat-error>
+         
+        </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Enter Image Url</mat-label>
+        <input formControlName="imageUrl" type="text" matInput placeholder="Enter Image Url" id="addOnsImageurl"/>
+        <mat-error *ngIf="errorHandling('imageUrl', 'required')">
+            You must provide a <strong>Image Url</strong>
+         </mat-error>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-action [align]="'end'">
+    <button mat-raised-button color="warn" mat-dialog-close>close</button>
+    <button style="margin-left:8px"  mat-raised-button color="primary" (click)="addItem()" >{{actionbtn}}</button>
+</div>
+
+
