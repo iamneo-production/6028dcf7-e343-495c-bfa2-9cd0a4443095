@@ -13,10 +13,13 @@ export class HomepageComponent implements OnInit {
   ngOnInit(): void {
   }
   openAddtheme(){
-    this.route.navigate(["admin/addtheme"])
+    this.route.navigate(["admin/theme"])
+  }
+  openDisplayUser(){
+    this.route.navigate(["admin/displayUser"])
   }
   openAddmenu(){
-    this.route.navigate(["admin/addmenu"])
+    this.route.navigate(["admin/menu"])
   }
   openAddon(){
     this.route.navigate(["admin/addon"])
