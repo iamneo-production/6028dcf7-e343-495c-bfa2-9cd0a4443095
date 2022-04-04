@@ -1,0 +1,47 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"></button>
+    <button mat-raised-button color="warn"(click)="openDisplayUser()">User List</button>
+    <span class="exam-space"></span>
+    <mat-icon> local_florist</mat-icon>
+    <button mat-raised-button color="warn"(click)="openAddtheme()">Theme</button>
+    <span class="exam-spacer"></span>
+    <mat-icon> fastfood</mat-icon>
+    <button mat-raised-button color="warn"(click)="openAddmenu()">Menu</button>
+    <span class="exam-space"></span>
+    <mat-icon>looks</mat-icon>
+    <button mat-raised-button color="warn"(click)="openAddon()">Addon</button>
+    <span class="example-spacer"></span>
+    <button mat-raised-button color="warn"(click)="logout()">Logout</button>
+</mat-toolbar>
+
+<h2> User List</h2>
+<table class = "table table-striped">
+    <thead>
+        <tr>
+            <th> ID</th>
+            <th> UserName</th>
+            <th> MobileNumber </th>
+            <th> Email Id</th>
+            <th> Password </th>
+           <th>Action</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor = "let user of user" >
+            <td> {{ user.id }} </td>
+            <td> {{ user.username }} </td>
+            <td> {{ user.mobileNumber }} </td>
+            <td> {{ user.email }} </td>
+            <td> {{ user.password }} </td>
+            
+            
+            <td>
+                <button (click) = "edituser(user.id)" class = "btn btn-info"> Update</button>
+                <button (click) = "onDelete(user.id)" class = "btn btn-danger" style="margin-left: 10px"> Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
