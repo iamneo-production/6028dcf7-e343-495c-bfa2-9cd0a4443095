@@ -1,0 +1,44 @@
+table, th, td {
+    border: 1px solid;
+  }
+  table {
+    width: 100%;
+    border: 1px solid;
+  }
+  
+  tr {background-color: #ddd;}
+  th {
+    background-color: #0468aa;
+    color: white;
+  }
+  h2{color: rgb(4, 59, 95);}
+
+  .button{
+    margin-right: auto;
+    float:right;
+  }
+  
+    table {
+      width: 100%;
+    }
+    
+    .mat-form-field {
+      font-size: 20px;
+      width: 100%;
+    }
+  
+    img {
+      width: 200px;
+      height: 130px;
+      overflow: auto;
+    }
+  
+    .exam-spacer {
+      flex: 1.5 2 auto;
+    }
+    .exam-space {
+        flex: 1.5 2 auto;
+      }
+    .example-spacer {
+        flex: 1 2 auto;
+      }

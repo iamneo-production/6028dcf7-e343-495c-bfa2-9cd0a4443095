@@ -1,0 +1,28 @@
+
+  
+  table {
+    width: 100%;
+  }
+  
+  .mat-form-field {
+    font-size: 20px;
+    width: 100%;
+  }
+
+  img {
+    width: 150px;
+    height: 130px;
+  }
+  .button{
+    margin-right: auto;
+    float:right;
+  }
+  .exam-spacer {
+    flex: 1.5 2 auto;
+  }
+  .exam-space {
+      flex: 1.5 2 auto;
+    }
+  .example-spacer {
+      flex: 1 2 auto;
+    }

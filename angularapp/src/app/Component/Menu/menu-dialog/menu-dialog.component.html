@@ -1,0 +1,50 @@
+<h1 mat-dialog-title>Menu</h1>
+<div mat-dialog-content>
+ <form [formGroup]="itemForm">
+    <mat-form-field appearance="outline">
+        <mat-label>Enter Item Image Url</mat-label>
+        <input formControlName="itemImageUrl"  matInput placeholder="Enter Item Image Url" />
+        <mat-error *ngIf="errorHandling('itemImageUrl', 'required')">
+            You must provide a <strong>Item Image Url </strong>
+         </mat-error>
+    </mat-form-field>
+    
+
+
+    <mat-form-field appearance="outline">
+        <mat-label>Enter Item Name</mat-label>
+        <input formControlName="itemName" matInput placeholder="Enter Item Name"/>
+        <mat-error *ngIf="errorHandling('itemName', 'required')">
+            You must provide a <strong>Item Name </strong>
+         </mat-error>
+        </mat-form-field>
+
+
+    <mat-form-field appearance="outline">
+        <mat-label>Enter Item Category</mat-label>
+        <mat-select formControlName="itemCategory" placeholder="Item Category">
+            <mat-option value="Veg">Veg</mat-option>
+            <mat-option value="Non-veg">Non-veg</mat-option>
+        </mat-select>
+        <mat-error *ngIf="errorHandling('itemCategory', 'required')">
+            You must provide a <strong>Item Category </strong>
+         </mat-error>
+        </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Enter Price</mat-label>
+        <input formControlName="itemPrice" type="number" matInput placeholder="Enter Price" pattern="^(?!0*(\.0+)?$)(\d+|\d*\.\d+)$" required/>
+        <mat-error *ngIf="errorHandling('itemPrice', 'required')">
+            You must provide a <strong>Price</strong>
+         </mat-error>
+         <mat-error *ngIf="errorHandling('itemPrice', 'pattern')">
+            You must provide a <strong>number only and sholuld not contain negative number and zero </strong>
+         </mat-error>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-action [align]="'end'">
+    <button mat-raised-button color="warn" mat-dialog-close>close</button>
+    <button style="margin-left:8px" mat-raised-button color="primary"  (click)="addItem()" >{{actionbtn}}</button>
+</div>
+

@@ -22,6 +22,15 @@ import {MatCardModule} from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
 import{MatSliderModule} from "@angular/material/slider";
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { AddonComponent } from './Component/Addon/addon/addon.component';
+import { AddonDialogComponent } from './Component/Addon/addon-dialog/addon-dialog.component';
+import { DeleteConfirmationComponent } from './Component/delete-confirmation/delete-confirmation.component';
+import {MenuComponent} from './Component/Menu/menu/menu.component';
+import { MenuDialogComponent } from './Component/Menu/menu-dialog/menu-dialog.component';
+import { ThemeComponent } from './Component/Theme/theme/theme.component';
+import { ThemeDialogComponent } from './Component/Theme/theme-dialog/theme-dialog.component';
+import { DisplayUserComponent } from './Component/display-user/display-user.component';
+import { EditUserComponent } from './Component/edit-user/edit-user.component';
 
 
 @NgModule({
@@ -29,7 +38,16 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     AppComponent,
     SignupComponent,
     LoginComponent,
-    HomepageComponent
+    HomepageComponent,
+    AddonComponent,
+    AddonDialogComponent,
+    DeleteConfirmationComponent,
+    MenuComponent,
+    MenuDialogComponent,
+    ThemeComponent,
+    ThemeDialogComponent,
+    DisplayUserComponent,
+    EditUserComponent
   ],
   imports: [
     BrowserModule,
